@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>jscl.math.numeric.matrix.Matrix</OriginalElement>
+  <nodes>
+    <node x="237.0" y="1313.0">jscl.math.numeric.matrix.DenseVector</node>
+    <node x="0.0" y="1334.0">jscl.math.numeric.matrix.SparseVector</node>
+    <node x="133.25" y="226.0">jscl.math.numeric.matrix.NumericVector</node>
+    <node x="187.25" y="0.0">jscl.math.numeric.matrix.Vector</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="jscl.math.numeric.matrix.NumericVector" target="jscl.math.numeric.matrix.Vector">
+      <point x="0.0" y="-518.5" />
+      <point x="0.0" y="88.0" />
+    </edge>
+    <edge source="jscl.math.numeric.matrix.SparseVector" target="jscl.math.numeric.matrix.NumericVector">
+      <point x="0.0" y="-35.5" />
+      <point x="108.5" y="1288.0" />
+      <point x="216.0" y="1288.0" />
+      <point x="-82.75" y="518.5" />
+    </edge>
+    <edge source="jscl.math.numeric.matrix.DenseVector" target="jscl.math.numeric.matrix.NumericVector">
+      <point x="0.0" y="-56.5" />
+      <point x="489.0" y="1288.0" />
+      <point x="381.5" y="1288.0" />
+      <point x="82.75" y="518.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="382.5" y="1033.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>public</VISIBILITY>
+</Diagram>
+
