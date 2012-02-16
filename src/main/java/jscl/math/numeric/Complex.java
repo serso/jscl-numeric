@@ -2,7 +2,7 @@ package jscl.math.numeric;
 
 import jscl.JsclMathContext;
 import jscl.math.NotDivisibleException;
-import jscl.math.raw.RawNumber;
+import jscl.raw.RawNumber;
 import org.jetbrains.annotations.NotNull;
 
 public final class Complex extends NumericNumber {

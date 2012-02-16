@@ -4,7 +4,7 @@ import jscl.AngleUnit;
 import jscl.JsclMathContext;
 import jscl.JsclMathContextImpl;
 import jscl.NumeralBase;
-import jscl.math.raw.RawNumberType;
+import jscl.raw.RawNumberType;
 import junit.framework.Assert;
 import org.junit.Test;
 

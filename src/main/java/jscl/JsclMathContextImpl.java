@@ -1,10 +1,10 @@
 package jscl;
 
-import jscl.math.raw.RawNumber;
+import jscl.raw.RawNumber;
 import jscl.math.numeric.Complex;
 import jscl.math.numeric.Real;
-import jscl.math.raw.RawNumberCreator;
-import jscl.math.raw.RawNumberType;
+import jscl.raw.RawNumberCreator;
+import jscl.raw.RawNumberType;
 import org.jetbrains.annotations.NotNull;
 
 /**

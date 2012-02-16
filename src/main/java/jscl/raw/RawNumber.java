@@ -1,4 +1,4 @@
-package jscl.math.raw;
+package jscl.raw;
 
 import jscl.math.Arithmetic;
 import org.jetbrains.annotations.NotNull;
