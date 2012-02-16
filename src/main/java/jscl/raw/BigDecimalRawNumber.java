@@ -161,6 +161,7 @@ public class BigDecimalRawNumber implements RawNumber {
 
 	@Override
 	public double asDouble() {
+		// todo serso: warn about possible loss of precision
 		return this.value.doubleValue();
 	}
 
