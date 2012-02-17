@@ -123,6 +123,12 @@ public class JsclMathContextImpl implements JsclMathContext {
 
 	@NotNull
 	@Override
+	public Complex newComplex(double real, double imaginary) {
+		return Complex.newInstance(this, rawNumberType.fromDouble(real), rawNumberType.fromDouble(imaginary));
+	}
+
+	@NotNull
+	@Override
 	public Real randomReal() {
 		return Real.newInstance(this, random());
 	}

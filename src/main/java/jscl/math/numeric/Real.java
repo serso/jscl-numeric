@@ -309,11 +309,6 @@ public final class Real extends NumericNumber {
 		return content.hashCode();
 	}
 
-	@Override
-	public boolean mathEquals(INumeric<Numeric> that) {
-		return equals(that);
-	}
-
 	@NotNull
 	public Numeric cos() {
 		return new Real(mc, defaultToRad(content).cos());
@@ -365,11 +360,20 @@ public final class Real extends NumericNumber {
 	}
 
 	@Override
-	public int compareTo(Numeric o) {
-		if (o instanceof Real) {
-			return this.content.compareTo(((Real) o).getContent());
+	public boolean mathEquals(INumeric<Numeric> that) {
+		if (that instanceof Real) {
+			return this.compareTo((Real)that) == 0;
 		} else {
-			throw new UnsupportedOperationException();
+			return that.mathEquals(this);
+		}
+	}
+
+	@Override
+	public int compareTo(Numeric that) {
+		if (that instanceof Real) {
+			return this.content.compareTo(((Real) that).getContent());
+		} else {
+			return that.compareTo(this);
 		}
 	}
 }

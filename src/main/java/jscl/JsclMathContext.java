@@ -35,5 +35,8 @@ public interface JsclMathContext extends RawNumberCreator {
 	Complex newComplex(long real, long imaginary);
 
 	@NotNull
+	Complex newComplex(double real, double imaginary);
+
+	@NotNull
 	Real randomReal();
 }

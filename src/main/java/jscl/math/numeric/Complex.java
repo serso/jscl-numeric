@@ -30,7 +30,7 @@ public final class Complex extends NumericNumber {
 	@NotNull
 	public static Complex newInstance(@NotNull final JsclMathContext mathContext,
 									  @NotNull Real real) {
-		return new Complex(mathContext, real.getContent(), real.getMathContext().fromLong(0L));
+		return new Complex(mathContext, real.getContent(), real.getMathContext().ZERO());
 	}
 
 	@NotNull
@@ -367,26 +367,12 @@ public final class Complex extends NumericNumber {
 		return result;
 	}
 
-	@Override
-	public boolean mathEquals(INumeric<Numeric> that) {
-		if ( that instanceof Complex ) {
-			return equals(that);
-		} else if ( that instanceof Real ) {
-			// if real number has come => check if current complex number is real and compare
-			if ( isReal() ) {
-				if ( this.real.equals(((Real) that).getContent()) ) {
-					return true;
-				}
-			}
-		} else {
-			return that.mathEquals(this);
-		}
-
-		return false;
-	}
-
 	public boolean isReal() {
 		return this.imaginary.isZero();
+	}
+
+	public boolean mathEquals(@NotNull Complex that) {
+		return this.compareTo(that) == 0;
 	}
 
 	public int compareTo(@NotNull Complex that) {
@@ -401,11 +387,22 @@ public final class Complex extends NumericNumber {
 	}
 
 	@Override
+	public boolean mathEquals(INumeric<Numeric> that) {
+		if (that instanceof Complex) {
+			return mathEquals((Complex) that);
+		} else if (that instanceof Real) {
+			return mathEquals(newInstance(mc, (Real)that));
+		} else {
+			return that.mathEquals(this);
+		}
+	}
+
+	@Override
 	public int compareTo(@NotNull Numeric that) {
-		if ( that instanceof Complex) {
-			return this.compareTo((Complex)that);
-		} else if ( that instanceof Real ) {
-			return this.compareTo(newInstance(mc, ((Real) that)));
+		if (that instanceof Complex) {
+			return this.compareTo((Complex) that);
+		} else if (that instanceof Real) {
+			return this.compareTo(newInstance(mc, (Real) that));
 		} else {
 			return that.compareTo(this);
 		}

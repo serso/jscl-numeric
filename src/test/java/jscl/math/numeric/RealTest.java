@@ -64,4 +64,18 @@ public class RealTest {
 	public void testDivide() throws Exception {
 
 	}
+
+	@Test
+	public void testMathEquals() throws Exception {
+		JsclMathContext mc = JsclMathContextImpl.defaultInstance();
+
+		Assert.assertTrue(mc.newReal(1.1d).mathEquals(mc.newComplex(1.1d, 0.0d)));
+		Assert.assertTrue(mc.newComplex(1.1d, 0.0d).mathEquals(mc.newReal(1.1d)));
+
+		Assert.assertTrue(mc.newReal(1.1d).compareTo(mc.newComplex(1.1d, 0.0d)) == 0);
+		Assert.assertTrue(mc.newComplex(1.1d, 0.0d).compareTo(mc.newReal(1.1d)) == 0);
+
+		Assert.assertFalse(mc.newComplex(1.1d, 0.0000001d).compareTo(mc.newReal(1.1d)) == 0);
+		Assert.assertFalse(mc.newReal(1.1d).compareTo(mc.newComplex(1.1d, 0.0000001d)) == 0);
+	}
 }
