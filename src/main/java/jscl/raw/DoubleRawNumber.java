@@ -2,6 +2,7 @@ package jscl.raw;
 
 import jscl.math.NotDivisibleException;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.math.BigDecimal;
 
@@ -13,6 +14,10 @@ import java.math.BigDecimal;
 public class DoubleRawNumber implements RawNumber {
 
 	private final double value;
+
+	// BigDecimal value for fast access
+	@Nullable
+	private BigDecimal bigDecimalValue;
 
 	DoubleRawNumber(double value) {
 		this.value = value;
@@ -166,6 +171,11 @@ public class DoubleRawNumber implements RawNumber {
 	}
 
 	@Override
+	public boolean mathEquals(@NotNull RawNumber that) {
+		return this.compareTo(that) == 0;
+	}
+
+	@Override
 	public double asDouble() {
 		return value;
 	}
@@ -173,7 +183,12 @@ public class DoubleRawNumber implements RawNumber {
 	@NotNull
 	@Override
 	public BigDecimal asBigDecimal() {
-		return BigDecimal.valueOf(value);
+		BigDecimal localeBigDecimal = bigDecimalValue;
+		if (localeBigDecimal == null) {
+			// no synchronization as we do not care about one instance (BigDecimal is immutable)
+			bigDecimalValue = (localeBigDecimal = BigDecimal.valueOf(value));
+		}
+		return localeBigDecimal;
 	}
 
 	@Override

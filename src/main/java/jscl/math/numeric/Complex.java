@@ -297,17 +297,6 @@ public final class Complex extends NumericNumber {
 		return imaginary;
 	}
 
-	public int compareTo(@NotNull Complex that) {
-		int result = this.imaginary.compareTo(that.imaginary);
-		if (result < 0) {
-			return -1;
-		} else if (result > 0) {
-			return 1;
-		} else {
-			return this.real.compareTo(that.real);
-		}
-	}
-
 
 /*	public int compareTo(@NotNull Numeric that) {
 		if (that instanceof Complex) {
@@ -398,6 +387,17 @@ public final class Complex extends NumericNumber {
 
 	public boolean isReal() {
 		return this.imaginary.isZero();
+	}
+
+	public int compareTo(@NotNull Complex that) {
+		int result = this.imaginary.compareTo(that.imaginary);
+		if (result < 0) {
+			return -1;
+		} else if (result > 0) {
+			return 1;
+		} else {
+			return this.real.compareTo(that.real);
+		}
 	}
 
 	@Override

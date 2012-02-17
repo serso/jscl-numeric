@@ -1,9 +1,7 @@
 package jscl.math.numeric.matrix;
 
-import jscl.AngleUnit;
-import jscl.JsclMathContext;
-import jscl.JsclMathContextImpl;
-import jscl.NumeralBase;
+import jscl.*;
+import jscl.MathAssert;
 import jscl.raw.RawNumberType;
 import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
@@ -89,7 +87,7 @@ public abstract class VectorTest<V extends NumericVector> {
 
 		final V v = NumericVector.random(mc, length, getBuilder(mc, length));
 
-		Assert.assertEquals(NumericVector.zero(mc, length), v.add(v.negate()));
+		MathAssert.assertEquals(NumericVector.zero(mc, length), v.add(v.negate()));
 		for (int i = 2; i < 10; i++) {
 			NumericVector sum = NumericVector.zero(mc, length);
 			for (int j = 0; j < i; j++) {

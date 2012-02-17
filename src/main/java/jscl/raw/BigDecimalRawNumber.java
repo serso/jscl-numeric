@@ -2,6 +2,7 @@ package jscl.raw;
 
 import jscl.math.NotDivisibleException;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.math.BigDecimal;
 
@@ -14,6 +15,10 @@ public class BigDecimalRawNumber implements RawNumber {
 
 	@NotNull
 	private final BigDecimal value;
+
+	// double value for fast access
+	@Nullable
+	private Double doubleValue;
 
 	private final static java.math.MathContext mc = java.math.MathContext.UNLIMITED;
 
@@ -106,12 +111,12 @@ public class BigDecimalRawNumber implements RawNumber {
 
 	@Override
 	public boolean isZero() {
-		return equals(BigDecimal.ZERO, this.value);
+		return mathEquals(BigDecimal.ZERO, this.value);
 	}
 
 	@Override
 	public boolean isOne() {
-		return equals(BigDecimal.ONE, this.value);
+		return mathEquals(BigDecimal.ONE, this.value);
 	}
 
 	@Override
@@ -162,7 +167,12 @@ public class BigDecimalRawNumber implements RawNumber {
 	@Override
 	public double asDouble() {
 		// todo serso: warn about possible loss of precision
-		return this.value.doubleValue();
+		Double localeDoubleValue = doubleValue;
+		if (localeDoubleValue == null) {
+			// no synchronization as we do not care about one instance (double is immutable)
+			doubleValue = (localeDoubleValue = value.doubleValue());
+		}
+		return localeDoubleValue;
 	}
 
 	@NotNull
@@ -196,32 +206,37 @@ public class BigDecimalRawNumber implements RawNumber {
 	}
 
 	@Override
-	public int compareTo(RawNumber o) {
-		return this.value.compareTo(o.asBigDecimal());
-	}
-
-	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (!(o instanceof BigDecimalRawNumber)) return false;
 
 		BigDecimalRawNumber that = (BigDecimalRawNumber) o;
 
-		if (!equals(this, that)) return false;
+		if (!this.value.equals(that.value)) return false;
 
 		return true;
-	}
-
-	private static boolean equals(@NotNull BigDecimalRawNumber l, @NotNull BigDecimalRawNumber r) {
-		return equals(l.value, r.value);
-	}
-
-	private static boolean equals(@NotNull BigDecimal l, @NotNull BigDecimal r) {
-		return l.compareTo(r) == 0;
 	}
 
 	@Override
 	public int hashCode() {
 		return value.hashCode();
+	}
+
+	private static boolean mathEquals(@NotNull BigDecimalRawNumber l, @NotNull BigDecimalRawNumber r) {
+		return mathEquals(l.value, r.value);
+	}
+
+	private static boolean mathEquals(@NotNull BigDecimal l, @NotNull BigDecimal r) {
+		return l.compareTo(r) == 0;
+	}
+
+	@Override
+	public boolean mathEquals(@NotNull RawNumber that) {
+		return this.compareTo(that) == 0;
+	}
+
+	@Override
+	public int compareTo(RawNumber o) {
+		return this.value.compareTo(o.asBigDecimal());
 	}
 }
