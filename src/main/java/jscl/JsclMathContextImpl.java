@@ -57,14 +57,14 @@ public class JsclMathContextImpl implements JsclMathContext {
 	@Override
 	public String format(@NotNull RawNumber value) throws NumeralBaseException {
 		// todo serso:
-		return String.valueOf(value.asDouble());
+		return String.valueOf(value.asDoubleRawNumber());
 	}
 
 	@NotNull
 	@Override
 	public String format(@NotNull RawNumber value, @NotNull NumeralBase nb) throws NumeralBaseException {
 		// todo serso:
-		return String.valueOf(value.asDouble());
+		return String.valueOf(value.asDoubleRawNumber());
 	}
 
 	@NotNull

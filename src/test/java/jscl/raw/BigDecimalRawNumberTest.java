@@ -24,4 +24,35 @@ public class BigDecimalRawNumberTest extends TestCase {
 		MathAssert.assertEquals(bigDecimalMc.fromDouble(0.54), doubleMc.fromDouble(0.54));
 		MathAssert.assertEquals(bigDecimalMc.fromDouble(1d/3), doubleMc.fromDouble(1d/3));
 	}
+
+	public void testSpecialDoubles() throws Exception {
+		JsclMathContext bigDecimalMc = JsclMathContextImpl.newInstance(AngleUnit.rad, NumeralBase.hex, RawNumberType.BIG_DECIMAL);
+
+		final RawNumber v = bigDecimalMc.fromDouble(2.5);
+		final BigDecimalRawNumber nan = SpecialDoubleType.nan.getBigDecimalRawNumber();
+
+		for (SpecialDoubleType specialDoubleType : SpecialDoubleType.values()) {
+			final RawNumber specialNumber = specialDoubleType.getBigDecimalRawNumber();
+			MathAssert.assertEquals(specialNumber, specialNumber.multiply(v));
+			MathAssert.assertEquals(specialNumber, v.multiply(specialNumber));
+
+			MathAssert.assertEquals(specialNumber, specialNumber.add(v));
+			MathAssert.assertEquals(specialNumber, v.add(specialNumber));
+
+			MathAssert.assertEquals(specialNumber, specialNumber.subtract(v));
+			MathAssert.assertEquals(specialNumber, v.subtract(specialNumber));
+
+			MathAssert.assertEquals(specialNumber, specialNumber.divide(v));
+			MathAssert.assertEquals(specialNumber, v.divide(specialNumber));
+
+			MathAssert.assertEquals(nan, specialNumber.acos());
+			MathAssert.assertEquals(nan, specialNumber.sin());
+			MathAssert.assertEquals(specialNumber, specialNumber.negate());
+			if (specialDoubleType != SpecialDoubleType.negative_inf) {
+				MathAssert.assertEquals(specialNumber, specialNumber.pow(v));
+			}
+		}
+
+		MathAssert.assertEquals(bigDecimalMc.fromDouble(1.5707963267948966), SpecialDoubleType.positive_inf.getBigDecimalRawNumber().atan());
+	}
 }

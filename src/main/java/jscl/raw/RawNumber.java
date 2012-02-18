@@ -3,8 +3,6 @@ package jscl.raw;
 import jscl.math.Arithmetic;
 import org.jetbrains.annotations.NotNull;
 
-import java.math.BigDecimal;
-
 /**
  * User: serso
  * Date: 1/30/12
@@ -63,10 +61,13 @@ public interface RawNumber extends Arithmetic<RawNumber>, Comparable<RawNumber> 
 	@NotNull
 	RawNumber tan();
 
+	@NotNull
+	DoubleRawNumber asDoubleRawNumber();
+
 	double asDouble();
 
 	@NotNull
-	BigDecimal asBigDecimal();
+	BigDecimalRawNumber asBigDecimalRawNumber();
 
 	boolean equals(Object o);
 

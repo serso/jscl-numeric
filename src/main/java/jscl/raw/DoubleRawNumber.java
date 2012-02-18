@@ -4,8 +4,6 @@ import jscl.math.NotDivisibleException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.math.BigDecimal;
-
 /**
  * User: serso
  * Date: 1/30/12
@@ -17,7 +15,7 @@ public class DoubleRawNumber implements RawNumber {
 
 	// BigDecimal value for fast access
 	@Nullable
-	private BigDecimal bigDecimalValue;
+	private BigDecimalRawNumber bigDecimalValue;
 
 	DoubleRawNumber(double value) {
 		this.value = value;
@@ -53,7 +51,7 @@ public class DoubleRawNumber implements RawNumber {
 	@NotNull
 	@Override
 	public DoubleRawNumber atan2(@NotNull RawNumber that) {
-		return newInstance(Math.atan2(this.value, that.asDouble()));
+		return newInstance(Math.atan2(this.value, that.asDoubleRawNumber().value));
 	}
 
 	@NotNull
@@ -109,7 +107,7 @@ public class DoubleRawNumber implements RawNumber {
 	@NotNull
 	@Override
 	public DoubleRawNumber pow(@NotNull RawNumber that) {
-		return newInstance(Math.pow(this.value, that.asDouble()));
+		return newInstance(Math.pow(this.value, that.asDoubleRawNumber().value));
 	}
 
 	@NotNull
@@ -144,30 +142,30 @@ public class DoubleRawNumber implements RawNumber {
 	@NotNull
 	@Override
 	public DoubleRawNumber add(@NotNull RawNumber that) {
-		return newInstance(this.value + that.asDouble());
+		return newInstance(this.value + that.asDoubleRawNumber().value);
 	}
 
 	@NotNull
 	@Override
 	public DoubleRawNumber subtract(@NotNull RawNumber that) {
-		return newInstance(this.value - that.asDouble());
+		return newInstance(this.value - that.asDoubleRawNumber().value);
 	}
 
 	@NotNull
 	@Override
 	public DoubleRawNumber multiply(@NotNull RawNumber that) {
-		return newInstance(this.value * that.asDouble());
+		return newInstance(this.value * that.asDoubleRawNumber().value);
 	}
 
 	@NotNull
 	@Override
 	public DoubleRawNumber divide(@NotNull RawNumber that) throws NotDivisibleException {
-		return newInstance(this.value / that.asDouble());
+		return newInstance(this.value / that.asDoubleRawNumber().value);
 	}
 
 	@Override
 	public int compareTo(@NotNull RawNumber that) {
-		return Double.compare(this.value, that.asDouble());
+		return Double.compare(this.value, that.asDoubleRawNumber().value);
 	}
 
 	@Override
@@ -175,18 +173,24 @@ public class DoubleRawNumber implements RawNumber {
 		return this.compareTo(that) == 0;
 	}
 
+	@NotNull
+	@Override
+	public DoubleRawNumber asDoubleRawNumber() {
+		return this;
+	}
+
 	@Override
 	public double asDouble() {
-		return value;
+		return this.value;
 	}
 
 	@NotNull
 	@Override
-	public BigDecimal asBigDecimal() {
-		BigDecimal localeBigDecimal = bigDecimalValue;
+	public BigDecimalRawNumber asBigDecimalRawNumber() {
+		BigDecimalRawNumber localeBigDecimal = bigDecimalValue;
 		if (localeBigDecimal == null) {
 			// no synchronization as we do not care about one instance (BigDecimal is immutable)
-			bigDecimalValue = (localeBigDecimal = BigDecimal.valueOf(value));
+			bigDecimalValue = (localeBigDecimal = BigDecimalRawNumber.newInstance(value));
 		}
 		return localeBigDecimal;
 	}
@@ -207,5 +211,12 @@ public class DoubleRawNumber implements RawNumber {
 	public int hashCode() {
 		long temp = value != +0.0d ? Double.doubleToLongBits(value) : 0L;
 		return (int) (temp ^ (temp >>> 32));
+	}
+
+	@Override
+	public String toString() {
+		return "DoubleRawNumber{" +
+				"value=" + value +
+				'}';
 	}
 }
