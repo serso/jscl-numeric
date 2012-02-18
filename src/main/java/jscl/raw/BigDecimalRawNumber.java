@@ -66,7 +66,7 @@ public class BigDecimalRawNumber implements RawNumber {
 		if ( this.specialDoubleType == null ) {
 			return newInstance(this.value.negate());
 		} else {
-			// todo serso: in case of infinities should we change we sign?
+			// todo serso: in case of infinities should we change the sign?
 			return this.specialDoubleType.getBigDecimalRawNumber();
 		}
 	}
