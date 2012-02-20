@@ -1,8 +1,8 @@
 package jscl.math.numeric.matrix;
 
+import jscl.JsclMathContext;
 import jscl.math.numeric.NumericNumber;
 import jscl.math.numeric.Real;
-import jscl.JsclMathContext;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -71,7 +71,7 @@ public class SparseMatrix extends NumericMatrix {
 
 	@NotNull
 	@Override
-	protected Matrix.Builder<NumericNumber, NumericMatrix> getBuilder(int rows, int cols) {
+	protected Matrix.Builder<NumericNumber, NumericVector, NumericMatrix> getBuilder(int rows, int cols) {
 		return new Builder(this.mc, rows, cols);
 	}
 

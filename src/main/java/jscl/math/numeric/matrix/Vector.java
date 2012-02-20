@@ -1,6 +1,7 @@
 package jscl.math.numeric.matrix;
 
-import jscl.math.numeric.NumericNumber;
+import jscl.IBuilder;
+import jscl.math.numeric.INumber;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -8,7 +9,9 @@ import org.jetbrains.annotations.NotNull;
  * Date: 2/9/12
  * Time: 6:08 PM
  */
-public interface Vector<V extends Vector<V>> extends CommonVectorInterface {
+public interface Vector<
+		N extends INumber,
+		V extends Vector<N, V>> extends CommonVectorInterface<N> {
 
 	/*
 	 * ********************************
@@ -22,7 +25,7 @@ public interface Vector<V extends Vector<V>> extends CommonVectorInterface {
 	V subtract(@NotNull V that);
 
 	@NotNull
-	NumericNumber multiply(@NotNull V that);
+	N multiply(@NotNull V that);
 
 	boolean isTransposed();
 
@@ -33,10 +36,10 @@ public interface Vector<V extends Vector<V>> extends CommonVectorInterface {
 	 */
 
 	@NotNull
-	V multiply(@NotNull NumericNumber that);
+	V multiply(@NotNull N that);
 
 	@NotNull
-	V divide(@NotNull NumericNumber that);
+	V divide(@NotNull N that);
 
 	@NotNull
 	V transpose();
@@ -45,13 +48,12 @@ public interface Vector<V extends Vector<V>> extends CommonVectorInterface {
 	 * Main interface for building new vector
 	 * NOTE: this builder provides access to the elements and this is the last point where the elements might be modified
 	 *
-	 * @param <T>
+	 * @param <V>
 	 */
-	public static interface Builder<T extends Vector> extends CommonVectorInterface {
+	public static interface Builder<
+			N extends INumber,
+			V extends Vector<N, V>> extends CommonVectorInterface<N>, IBuilder<V> {
 
-		void setI(int index, @NotNull NumericNumber value);
-
-		@NotNull
-		T build();
+		void setI(int index, @NotNull N value);
 	}
 }

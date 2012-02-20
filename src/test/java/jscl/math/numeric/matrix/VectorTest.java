@@ -2,6 +2,7 @@ package jscl.math.numeric.matrix;
 
 import jscl.*;
 import jscl.MathAssert;
+import jscl.math.numeric.NumericNumber;
 import jscl.raw.RawNumberType;
 import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
@@ -14,18 +15,18 @@ import static org.junit.Assert.fail;
  * Date: 2/14/12
  * Time: 4:38 PM
  */
-public abstract class VectorTest<V extends NumericVector> {
+public abstract class VectorTest {
 
 	private static final JsclMathContext mc = JsclMathContextImpl.defaultInstance();
 
 	@NotNull
-	protected abstract Vector.Builder<V> getBuilder(@NotNull JsclMathContext mc, int length);
+	protected abstract Vector.Builder<NumericNumber, NumericVector> getBuilder(@NotNull JsclMathContext mc, int length);
 
 	@Test
 	public void testNegate() throws Exception {
 		final int length = 10;
 
-		final Vector.Builder<V> b = getBuilder(mc, length);
+		final Vector.Builder<NumericNumber, NumericVector> b = getBuilder(mc, length);
 		for (int i = 0; i < length; i++) {
 			b.setI(i, mc.newReal(i));
 		}
@@ -45,7 +46,7 @@ public abstract class VectorTest<V extends NumericVector> {
 	public void testMultiplication() throws Exception {
 		final int length = 10;
 
-		final Vector.Builder<V> b = getBuilder(mc, length);
+		final Vector.Builder<NumericNumber, NumericVector> b = getBuilder(mc, length);
 		for (int i = 0; i < length; i++) {
 			b.setI(i, mc.newReal(i));
 		}
@@ -74,7 +75,7 @@ public abstract class VectorTest<V extends NumericVector> {
 	public void testSubtraction() throws Exception {
 		final int length = 10;
 
-		final V v = NumericVector.random(mc, length, getBuilder(mc, length));
+		final NumericVector v = NumericVector.random(mc, length, getBuilder(mc, length));
 
 		Assert.assertEquals(NumericVector.zero(mc, length), v.subtract(v));
 	}
@@ -85,7 +86,7 @@ public abstract class VectorTest<V extends NumericVector> {
 
 		final JsclMathContext mc = JsclMathContextImpl.newInstance(AngleUnit.deg, NumeralBase.dec, RawNumberType.BIG_DECIMAL);
 
-		final V v = NumericVector.random(mc, length, getBuilder(mc, length));
+		final NumericVector v = NumericVector.random(mc, length, getBuilder(mc, length));
 
 		MathAssert.assertEquals(NumericVector.zero(mc, length), v.add(v.negate()));
 		for (int i = 2; i < 10; i++) {

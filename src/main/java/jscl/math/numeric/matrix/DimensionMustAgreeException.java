@@ -1,7 +1,7 @@
 package jscl.math.numeric.matrix;
 
-import jscl.msg.Messages;
 import jscl.math.ArithmeticOperationException;
+import jscl.msg.Messages;
 import org.jetbrains.annotations.NotNull;
 
 /**

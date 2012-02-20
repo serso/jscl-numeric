@@ -9,7 +9,7 @@ public class DenseVector extends NumericVector {
 	@NotNull
 	private final NumericNumber v[];
 
-	public static class Builder extends AbstractBuilder<DenseVector> {
+	public static class Builder extends AbstractBuilder {
 
 		@NotNull
 		private final NumericNumber v[];
@@ -81,7 +81,7 @@ public class DenseVector extends NumericVector {
 
 	@NotNull
 	@Override
-	protected Vector.Builder<? extends NumericVector> getBuilder(int length, boolean transposed) {
+	protected Vector.Builder<NumericNumber, NumericVector> getBuilder(int length, boolean transposed) {
 		return new Builder(this.mc, length, transposed);
 	}
 

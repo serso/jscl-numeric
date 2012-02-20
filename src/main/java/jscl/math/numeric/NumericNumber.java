@@ -2,6 +2,7 @@ package jscl.math.numeric;
 
 import jscl.AngleUnit;
 import jscl.JsclMathContext;
+import jscl.math.ArithmeticOperationException;
 import jscl.math.NotDivisibleException;
 import jscl.raw.RawNumber;
 import org.jetbrains.annotations.NotNull;

@@ -63,7 +63,7 @@ public class DenseMatrix extends NumericMatrix {
 
 	@NotNull
 	@Override
-	protected Matrix.Builder<NumericNumber, NumericMatrix> getBuilder(int rows, int cols) {
+	protected Matrix.Builder<NumericNumber, NumericVector, NumericMatrix> getBuilder(int rows, int cols) {
 		return new Builder(this.mc, rows, cols);
 	}
 

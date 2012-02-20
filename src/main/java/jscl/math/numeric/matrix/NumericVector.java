@@ -1,5 +1,6 @@
 package jscl.math.numeric.matrix;
 
+import jscl.ImmutableObjectBuilder;
 import jscl.JsclMathContext;
 import jscl.math.NotDivisibleException;
 import jscl.math.numeric.INumeric;
@@ -13,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
  * Date: 2/9/12
  * Time: 6:23 PM
  */
-public abstract class NumericVector extends Numeric implements Vector<NumericVector> {
+public abstract class NumericVector extends Numeric implements Vector<NumericNumber, NumericVector> {
 
 	protected final int length;
 
@@ -26,7 +27,7 @@ public abstract class NumericVector extends Numeric implements Vector<NumericVec
 	* ***********************************************
 	*/
 
-	public static abstract class AbstractBuilder<T extends Vector> implements Vector.Builder<T> {
+	public static abstract class AbstractBuilder extends ImmutableObjectBuilder<NumericVector> implements Vector.Builder<NumericNumber, NumericVector> {
 
 		protected final int length;
 
@@ -34,8 +35,6 @@ public abstract class NumericVector extends Numeric implements Vector<NumericVec
 
 		@NotNull
 		protected final JsclMathContext mc;
-
-		private boolean built = false;
 
 		protected AbstractBuilder(@NotNull JsclMathContext mc, int length, final boolean transposed) {
 			if (length <= 0) {
@@ -49,25 +48,15 @@ public abstract class NumericVector extends Numeric implements Vector<NumericVec
 			this.transposed = transposed;
 		}
 
-		@NotNull
-		@Override
-		public final T build() {
-			this.built = true;
-			return build0();
-		}
-
 		@Override
 		public final void setI(int index, @NotNull NumericNumber value) {
-			if ( built ) {
+			if ( isLocked() ) {
 				throw new IllegalStateException("Vector already built - no changes can be done!");
 			}
 			setI0(index, value);
 		}
 
 		protected abstract void setI0(int index, @NotNull NumericNumber value);
-
-		@NotNull
-		protected abstract T build0();
 
 		@Override
 		public int getLength() {
@@ -101,13 +90,13 @@ public abstract class NumericVector extends Numeric implements Vector<NumericVec
 	 * @return builder of vector of current type
 	 */
 	@NotNull
-	protected abstract Vector.Builder<? extends NumericVector> getBuilder(int length, boolean transposed);
+	protected abstract Vector.Builder<NumericNumber, NumericVector> getBuilder(int length, boolean transposed);
 
 	/**
 	 * @return builder for matrix with same dimensions as this matrix
 	 */
 	@NotNull
-	private Vector.Builder<? extends NumericVector> getBuilder() {
+	private Vector.Builder<NumericNumber, NumericVector> getBuilder() {
 		return getBuilder(length, transposed);
 	}
 
@@ -142,7 +131,7 @@ public abstract class NumericVector extends Numeric implements Vector<NumericVec
 
 	@NotNull
 	public NumericVector negate() {
-		final Builder<? extends NumericVector> b = getBuilder();
+		final Builder<NumericNumber, NumericVector> b = getBuilder();
 		for (int i = 0; i < length; i++) {
 			b.setI(i, this.getI(i).negate());
 		}
@@ -162,7 +151,7 @@ public abstract class NumericVector extends Numeric implements Vector<NumericVec
 	}
 
 	public Numeric conjugate() {
-		final Builder<? extends NumericVector> b = getBuilder();
+		final Builder<NumericNumber, NumericVector> b = getBuilder();
 		for (int i = 0; i < length; i++) {
 			b.setI(i, this.getI(i).conjugate());
 		}
@@ -185,7 +174,7 @@ public abstract class NumericVector extends Numeric implements Vector<NumericVec
 	public NumericVector add(@NotNull NumericVector that) {
 		checkSameDimensions(that);
 
-		final Builder<? extends NumericVector> b = getBuilder();
+		final Builder<NumericNumber, NumericVector> b = getBuilder();
 
 		for (int i = 0; i < length; i++) {
 			b.setI(i, this.getI(i).add(that.getI(i)));
@@ -213,7 +202,7 @@ public abstract class NumericVector extends Numeric implements Vector<NumericVec
 	public NumericVector subtract(@NotNull NumericVector that) {
 		checkSameDimensions(that);
 
-		final Builder<? extends NumericVector> b = getBuilder();
+		final Builder<NumericNumber, NumericVector> b = getBuilder();
 
 		for (int i = 0; i < length; i++) {
 			b.setI(i, this.getI(i).subtract(that.getI(i)));
@@ -241,8 +230,8 @@ public abstract class NumericVector extends Numeric implements Vector<NumericVec
 	public Numeric multiply(@NotNull Numeric that) {
 		if (that instanceof NumericVector) {
 			return multiply((NumericVector) that);
-		} else if (that instanceof Matrix) {
-			return ((Matrix) that).transpose().multiply(this);
+		} else if (that instanceof NumericMatrix) {
+			return ((NumericMatrix) that).transpose().multiply(this);
 		} else if (that instanceof NumericNumber) {
 			return multiply((NumericNumber) that);
 		} else {
@@ -253,7 +242,7 @@ public abstract class NumericVector extends Numeric implements Vector<NumericVec
 	@Override
 	@NotNull
 	public NumericVector multiply(@NotNull NumericNumber that) {
-		final Builder<? extends NumericVector> b = getBuilder();
+		final Builder<NumericNumber, NumericVector> b = getBuilder();
 		for (int i = 0; i < length; i++) {
 			b.setI(i, this.getI(i).multiply(that));
 		}
@@ -292,7 +281,7 @@ public abstract class NumericVector extends Numeric implements Vector<NumericVec
 	@Override
 	@NotNull
 	public NumericVector divide(@NotNull NumericNumber that) {
-		final Builder<? extends NumericVector> b = getBuilder();
+		final Builder<NumericNumber, NumericVector> b = getBuilder();
 
 		for (int i = 0; i < length; i++) {
 			b.setI(i, this.getI(i).divide(that));
@@ -557,14 +546,14 @@ public abstract class NumericVector extends Numeric implements Vector<NumericVec
 
 	@NotNull
 	public static NumericVector random(@NotNull JsclMathContext mathContext, int length) {
-		final Builder<? extends NumericVector> b = new SparseVector.Builder(mathContext,  length);
+		final Builder<NumericNumber, NumericVector> b = new SparseVector.Builder(mathContext,  length);
 
 		return random(mathContext, length, b);
 	}
 
 	// package protected for tests
 	@NotNull
-	static <T extends NumericVector> T random(@NotNull JsclMathContext mathContext, int length, @NotNull Builder<T> b) {
+	static NumericVector random(@NotNull JsclMathContext mathContext, int length, @NotNull Builder<NumericNumber, NumericVector> b) {
 		for (int i = 0; i < length; i++) {
 			  b.setI(i, mathContext.randomReal());
 		}
@@ -574,7 +563,7 @@ public abstract class NumericVector extends Numeric implements Vector<NumericVec
 
 	@NotNull
 	public static NumericVector unity(@NotNull JsclMathContext mc, int dimension) {
-		final Builder<SparseVector> b = new SparseVector.Builder(mc, dimension);
+		final Builder<NumericNumber, NumericVector> b = new SparseVector.Builder(mc, dimension);
 
 		b.setI(0, Real.ONE(mc));
 

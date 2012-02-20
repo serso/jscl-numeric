@@ -1,9 +1,9 @@
 package jscl;
 
-import jscl.raw.RawNumber;
-import jscl.raw.RawNumberCreator;
 import jscl.math.numeric.Complex;
 import jscl.math.numeric.Real;
+import jscl.raw.RawNumber;
+import jscl.raw.RawNumberCreator;
 import org.jetbrains.annotations.NotNull;
 
 /**

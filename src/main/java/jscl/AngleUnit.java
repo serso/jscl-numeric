@@ -1,8 +1,8 @@
 package jscl;
 
-import jscl.raw.RawNumber;
 import jscl.math.numeric.Numeric;
 import jscl.math.numeric.Real;
+import jscl.raw.RawNumber;
 import org.jetbrains.annotations.NotNull;
 
 /**

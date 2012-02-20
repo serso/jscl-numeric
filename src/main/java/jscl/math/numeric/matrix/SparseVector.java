@@ -18,7 +18,7 @@ public class SparseVector extends NumericVector {
 	@NotNull
 	private final List<Entry> v;
 
-	public static class Builder extends AbstractBuilder<SparseVector> {
+	public static class Builder extends AbstractBuilder {
 
 		@NotNull
 		private final List<Entry> v;
@@ -73,7 +73,7 @@ public class SparseVector extends NumericVector {
 
 	@NotNull
 	@Override
-	protected Vector.Builder<? extends NumericVector> getBuilder(int length, boolean transposed) {
+	protected Vector.Builder<NumericNumber, NumericVector> getBuilder(int length, boolean transposed) {
 		return new Builder(mc, length, transposed);
 	}
 

@@ -13,7 +13,7 @@ public class DenseMatrixTest extends MatrixTest {
 
 	@NotNull
 	@Override
-	protected Matrix.Builder<NumericNumber, NumericMatrix> getBuilder(@NotNull JsclMathContext mc, int rows, int cols) {
+	protected Matrix.Builder<NumericNumber, NumericVector, NumericMatrix> getBuilder(@NotNull JsclMathContext mc, int rows, int cols) {
 		return new DenseMatrix.Builder(mc, rows, cols);
 	}
 }

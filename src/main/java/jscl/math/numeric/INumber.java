@@ -1,5 +1,6 @@
 package jscl.math.numeric;
 
+import jscl.math.Arithmetic;
 import org.jetbrains.annotations.NotNull;
 
 /**

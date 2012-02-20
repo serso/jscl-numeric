@@ -1,6 +1,6 @@
 package jscl.math.numeric.matrix;
 
-import jscl.math.numeric.NumericNumber;
+import jscl.math.numeric.INumber;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -8,10 +8,10 @@ import org.jetbrains.annotations.NotNull;
  * Date: 2/15/12
  * Time: 2:09 PM
  */
-interface CommonVectorInterface {
+interface CommonVectorInterface<N extends INumber> {
 
 	@NotNull
-	NumericNumber getI(int index);
+	N getI(int index);
 
 	int getLength();
 }
