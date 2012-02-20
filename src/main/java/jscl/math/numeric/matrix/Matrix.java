@@ -1,6 +1,6 @@
 package jscl.math.numeric.matrix;
 
-import jscl.math.numeric.NumericNumber;
+import jscl.math.numeric.INumber;
 import jscl.math.numeric.Numeric;
 import org.jetbrains.annotations.NotNull;
 
@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
  * Date: 2/2/12
  * Time: 12:09 PM
  */
-public interface Matrix<M extends Matrix<M>> extends CommonMatrixInterface {
+public interface Matrix<E extends INumber, M extends Matrix<E, M>> extends CommonMatrixInterface<E> {
 
 	/*
 	 * ********************************
@@ -35,21 +35,21 @@ public interface Matrix<M extends Matrix<M>> extends CommonMatrixInterface {
 	M transpose();
 
 	@NotNull
-	NumericNumber trace();
+	E trace();
 
 	@NotNull
-	NumericNumber determinant();
+	E determinant();
 
 	/**
 	 * Main interface for building new matrix
 	 * NOTE: this builder provides access to the elements and this is the last point where the elements might be modified
-	 * @param <T>
+	 * @param <M>
 	 */
-	public static interface Builder<T extends Matrix> extends CommonMatrixInterface {
+	public static interface Builder<E extends INumber, M extends Matrix<E, M>> extends CommonMatrixInterface<E> {
 
-		void setIJ(int row, int col, @NotNull NumericNumber value);
+		void setIJ(int row, int col, @NotNull E value);
 
 		@NotNull
-		T build();
+		M build();
 	}
 }

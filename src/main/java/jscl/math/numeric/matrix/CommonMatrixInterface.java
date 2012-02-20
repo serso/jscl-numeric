@@ -1,5 +1,6 @@
 package jscl.math.numeric.matrix;
 
+import jscl.math.numeric.INumber;
 import jscl.math.numeric.NumericNumber;
 import org.jetbrains.annotations.NotNull;
 
@@ -8,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
  * Date: 2/15/12
  * Time: 2:14 PM
  */
-interface CommonMatrixInterface {
+interface CommonMatrixInterface<E extends INumber> {
 	/**
 	 * @return number of rows in matrix
 	 */
@@ -27,5 +28,5 @@ interface CommonMatrixInterface {
 	 * @return (row, col) element of matrix
 	 */
 	@NotNull
-	NumericNumber getIJ(int row, int col);
+	E getIJ(int row, int col);
 }

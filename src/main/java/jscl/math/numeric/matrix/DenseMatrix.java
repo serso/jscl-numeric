@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class DenseMatrix extends NumericMatrix {
 
-	public static class Builder extends AbstractBuilder<DenseMatrix> {
+	public static class Builder extends AbstractBuilder {
 		@NotNull
 		private final NumericNumber m[][];
 
@@ -63,7 +63,7 @@ public class DenseMatrix extends NumericMatrix {
 
 	@NotNull
 	@Override
-	protected Matrix.Builder<? extends NumericMatrix> getBuilder(int rows, int cols) {
+	protected Matrix.Builder<NumericNumber, NumericMatrix> getBuilder(int rows, int cols) {
 		return new Builder(this.mc, rows, cols);
 	}
 

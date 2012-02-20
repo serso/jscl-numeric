@@ -3,6 +3,7 @@ package jscl.math.numeric.matrix;
 import jscl.JsclMathContext;
 import jscl.JsclMathContextImpl;
 import jscl.math.numeric.Numeric;
+import jscl.math.numeric.NumericNumber;
 import jscl.math.numeric.Real;
 import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
@@ -16,18 +17,18 @@ import java.util.List;
  * Date: 2/2/12
  * Time: 5:39 PM
  */
-public abstract class MatrixTest<M extends NumericMatrix> {
+public abstract class MatrixTest {
 
 	public static final double MIN_E = 0.001;
 
 	@NotNull
-	protected abstract Matrix.Builder<M> getBuilder(@NotNull JsclMathContext mc, int rows, int cols);
+	protected abstract Matrix.Builder<NumericNumber, NumericMatrix> getBuilder(@NotNull JsclMathContext mc, int rows, int cols);
 
 	@Test
 	public void testCreate() throws Exception {
 		JsclMathContext mc = JsclMathContextImpl.defaultInstance();
 
-		Matrix.Builder<M> b = getBuilder(mc, 2, 2);
+		Matrix.Builder<NumericNumber, NumericMatrix> b = getBuilder(mc, 2, 2);
 		b.setIJ(0, 0, mc.newReal(1L));
 		b.setIJ(1, 1, mc.newReal(2L));
 		final Matrix m = b.build();
@@ -250,7 +251,7 @@ public abstract class MatrixTest<M extends NumericMatrix> {
 		Assert.assertEquals(E, E.multiply(E));
 		Assert.assertEquals(B, E.multiply(B));
 
-		Matrix.Builder<M> b = getBuilder(mc, 4, 3);
+		Matrix.Builder<NumericNumber, NumericMatrix> b = getBuilder(mc, 4, 3);
 		b.setIJ(0, 0, mc.newReal(14));
 		b.setIJ(0, 1, mc.newReal(9));
 		b.setIJ(0, 2, mc.newReal(3));
@@ -299,18 +300,18 @@ public abstract class MatrixTest<M extends NumericMatrix> {
 
 		Assert.assertEquals(A1B1, A1.multiply(B1));
 
-		final M A2 = parseMatrix(A2_str, getBuilder(mc, 2, 3), mc, false);
-		final M B2 = parseMatrix(B2_str, getBuilder(mc, 3, 2), mc, false);
-		final M A2B2 = parseMatrix(A2B2_str, getBuilder(mc, 2, 2), mc, false);
+		final NumericMatrix A2 = parseMatrix(A2_str, getBuilder(mc, 2, 3), mc, false);
+		final NumericMatrix B2 = parseMatrix(B2_str, getBuilder(mc, 3, 2), mc, false);
+		final NumericMatrix A2B2 = parseMatrix(A2B2_str, getBuilder(mc, 2, 2), mc, false);
 
 		Assert.assertEquals(A2B2, A2.multiply((Numeric)B2));
 
 		int i = 0;
 		for (int rows = 2; rows < 6; rows++) {
 			for (int cols = 2; cols < 6; cols++) {
-				final M A3 = parseMatrix(aMatrices.get(i), getBuilder(mc, rows, cols), mc, true);
-				final M B3 = parseMatrix(bMatrices.get(i), getBuilder(mc, cols, rows), mc, true);
-				final M A3B3 = parseMatrix(abMatrices.get(i), getBuilder(mc, rows, rows), mc, true);
+				final NumericMatrix A3 = parseMatrix(aMatrices.get(i), getBuilder(mc, rows, cols), mc, true);
+				final NumericMatrix B3 = parseMatrix(bMatrices.get(i), getBuilder(mc, cols, rows), mc, true);
+				final NumericMatrix A3B3 = parseMatrix(abMatrices.get(i), getBuilder(mc, rows, rows), mc, true);
 				Assert.assertTrue(A3B3.subtract(A3.multiply((Numeric) B3)).norm().less(mc.newReal(MIN_E)));
 				i++;
 			}
@@ -364,7 +365,7 @@ public abstract class MatrixTest<M extends NumericMatrix> {
 		}
 	}
 
-	public static <M extends Matrix> M parseMatrix(@NotNull String s, @NotNull Matrix.Builder<M> m, @NotNull JsclMathContext mc, boolean asDouble) {
+	public static NumericMatrix parseMatrix(@NotNull String s, @NotNull Matrix.Builder<NumericNumber, NumericMatrix> m, @NotNull JsclMathContext mc, boolean asDouble) {
 		int row = 0;
 		int col = 0;
 		for (int i = 0; i < s.length(); i++) {

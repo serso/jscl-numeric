@@ -8,7 +8,7 @@ import jscl.math.numeric.NumericNumber;
 import jscl.math.numeric.Real;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class NumericMatrix extends Numeric implements Matrix<NumericMatrix> {
+public abstract class NumericMatrix extends Numeric implements Matrix<NumericNumber, NumericMatrix> {
 
 	/*
 	* NOTE: fields below are for internal representation of matrix - use them carefully.
@@ -30,7 +30,7 @@ public abstract class NumericMatrix extends Numeric implements Matrix<NumericMat
 	* ***********************************************
 	*/
 
-	public static abstract class AbstractBuilder<T extends Matrix> implements Builder<T> {
+	public static abstract class AbstractBuilder implements Builder<NumericNumber, NumericMatrix> {
 
 		protected final int rows;
 
@@ -83,13 +83,13 @@ public abstract class NumericMatrix extends Numeric implements Matrix<NumericMat
 
 		@NotNull
 		@Override
-		public final T build() {
+		public final NumericMatrix build() {
 			this.built = true;
 			return build0();
 		}
 
 		@NotNull
-		protected abstract T build0();
+		protected abstract NumericMatrix build0();
 
 		@NotNull
 		protected abstract NumericNumber getIJ0(int row, int col);
@@ -137,13 +137,13 @@ public abstract class NumericMatrix extends Numeric implements Matrix<NumericMat
 	 * @return builder of matrix of current type
 	 */
 	@NotNull
-	protected abstract Builder<? extends NumericMatrix> getBuilder(int rows, int cols);
+	protected abstract Builder<NumericNumber, NumericMatrix> getBuilder(int rows, int cols);
 
 	/**
 	 * @return builder for matrix with same dimensions as this matrix
 	 */
 	@NotNull
-	private Builder<? extends NumericMatrix> getBuilder() {
+	private Builder<NumericNumber, NumericMatrix> getBuilder() {
 		return getBuilder(getRows(), getCols());
 	}
 
@@ -211,8 +211,8 @@ public abstract class NumericMatrix extends Numeric implements Matrix<NumericMat
 	*/
 
 	@NotNull
-	protected NumericMatrix add0(@NotNull Matrix that) {
-		final Builder<? extends NumericMatrix> b = getBuilder();
+	protected NumericMatrix add0(@NotNull NumericMatrix that) {
+		final Builder<NumericNumber, NumericMatrix> b = getBuilder();
 
 		for (int i = 0; i < getRows(); i++) {
 			for (int j = 0; j < getCols(); j++) {
@@ -247,7 +247,7 @@ public abstract class NumericMatrix extends Numeric implements Matrix<NumericMat
 
 	@NotNull
 	protected NumericMatrix subtract0(@NotNull NumericMatrix that) {
-		final Builder<? extends NumericMatrix> b = getBuilder();
+		final Builder<NumericNumber, NumericMatrix> b = getBuilder();
 
 		for (int i = 0; i < getRows(); i++) {
 			for (int j = 0; j < getCols(); j++) {
@@ -325,8 +325,8 @@ public abstract class NumericMatrix extends Numeric implements Matrix<NumericMat
 	}
 
 	@NotNull
-	protected NumericMatrix multiply0(@NotNull Matrix that) {
-		final Builder<? extends NumericMatrix> b = getBuilder(this.getRows(), that.getCols());
+	protected NumericMatrix multiply0(@NotNull NumericMatrix that) {
+		final Builder<NumericNumber, NumericMatrix> b = getBuilder(this.getRows(), that.getCols());
 
 		for (int row = 0; row < this.getRows(); row++) {
 			for (int col = 0; col < that.getCols(); col++) {
@@ -346,7 +346,7 @@ public abstract class NumericMatrix extends Numeric implements Matrix<NumericMat
 
 	@NotNull
 	protected NumericMatrix multiply(@NotNull NumericNumber that) {
-		final Builder<? extends NumericMatrix> b = getBuilder();
+		final Builder<NumericNumber, NumericMatrix> b = getBuilder();
 
 		for (int i = 0; i < getRows(); i++) {
 			for (int j = 0; j < getCols(); j++) {
@@ -418,7 +418,7 @@ public abstract class NumericMatrix extends Numeric implements Matrix<NumericMat
 
 	@NotNull
 	protected NumericMatrix scalarDivide(@NotNull Numeric that) {
-		final Builder<? extends NumericMatrix> b = getBuilder();
+		final Builder<NumericNumber, NumericMatrix> b = getBuilder();
 
 		for (int i = 0; i < this.getRows(); i++) {
 			for (int j = 0; j < this.getCols(); j++) {
@@ -432,7 +432,7 @@ public abstract class NumericMatrix extends Numeric implements Matrix<NumericMat
 
 	@NotNull
 	public NumericMatrix negate() {
-		final Builder<? extends NumericMatrix> b = getBuilder();
+		final Builder<NumericNumber, NumericMatrix> b = getBuilder();
 
 		for (int i = 0; i < this.getRows(); i++) {
 			for (int j = 0; j < this.getCols(); j++) {
@@ -483,7 +483,7 @@ public abstract class NumericMatrix extends Numeric implements Matrix<NumericMat
 
 	@NotNull
 	public Numeric inverse() {
-		final Builder<? extends NumericMatrix> b = getBuilder();
+		final Builder<NumericNumber, NumericMatrix> b = getBuilder();
 
 		for (int i = 0; i < this.getRows(); i++) {
 			for (int j = 0; j < this.getRows(); j++) {
@@ -495,7 +495,7 @@ public abstract class NumericMatrix extends Numeric implements Matrix<NumericMat
 	}
 
 	NumericNumber inverseElement(int k, int l) {
-		final Builder<? extends NumericMatrix> b = getBuilder();
+		final Builder<NumericNumber, NumericMatrix> b = getBuilder();
 
 		for (int i = 0; i < getRows(); i++) {
 			for (int j = 0; j < getRows(); j++) {
@@ -524,7 +524,7 @@ public abstract class NumericMatrix extends Numeric implements Matrix<NumericMat
 				} else if (getRows() == 2) {
 					determinant =  this.getIJ(0 < i ? 0 : 1, 1);
 				} else {
-					final Builder<? extends NumericMatrix> b = getBuilder(getRows() - 1, getRows() - 1);
+					final Builder<NumericNumber, NumericMatrix> b = getBuilder(getRows() - 1, getRows() - 1);
 
 					for (int j = 0; j < getRows() - 1; j++) {
 						for (int k = 0; k < getRows() - 1; k++) {
@@ -562,7 +562,7 @@ public abstract class NumericMatrix extends Numeric implements Matrix<NumericMat
 	}
 
 	public Numeric conjugate() {
-		final Builder<? extends NumericMatrix> b = getBuilder();
+		final Builder<NumericNumber, NumericMatrix> b = getBuilder();
 		
 		for (int i = 0; i < getRows(); i++) {
 			for (int j = 0; j < getCols(); j++) {
@@ -594,7 +594,7 @@ public abstract class NumericMatrix extends Numeric implements Matrix<NumericMat
 
 	@NotNull
 	public static Matrix identity(@NotNull JsclMathContext mc, int rows, int cols) {
-		final Builder<SparseMatrix> b = new SparseMatrix.Builder(mc, rows, cols);
+		final SparseMatrix.Builder b = new SparseMatrix.Builder(mc, rows, cols);
 
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
@@ -614,7 +614,7 @@ public abstract class NumericMatrix extends Numeric implements Matrix<NumericMat
 
 	@NotNull
 	public static Matrix random(@NotNull JsclMathContext mc, int rows, int cols) {
-		final Builder<DenseMatrix> b = new DenseMatrix.Builder(mc, rows, cols);
+		final DenseMatrix.Builder b = new DenseMatrix.Builder(mc, rows, cols);
 
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {

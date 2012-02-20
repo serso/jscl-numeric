@@ -17,7 +17,7 @@ import java.util.List;
 public class SparseMatrix extends NumericMatrix {
 
 
-	public static class Builder extends AbstractBuilder<SparseMatrix> {
+	public static class Builder extends AbstractBuilder {
 
 		@NotNull
 		private final List<List<Entry>> m;
@@ -71,7 +71,7 @@ public class SparseMatrix extends NumericMatrix {
 
 	@NotNull
 	@Override
-	protected Matrix.Builder<? extends NumericMatrix> getBuilder(int rows, int cols) {
+	protected Matrix.Builder<NumericNumber, NumericMatrix> getBuilder(int rows, int cols) {
 		return new Builder(this.mc, rows, cols);
 	}
 
