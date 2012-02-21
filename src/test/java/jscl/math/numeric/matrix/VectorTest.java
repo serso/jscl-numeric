@@ -1,7 +1,6 @@
 package jscl.math.numeric.matrix;
 
 import jscl.*;
-import jscl.MathAssert;
 import jscl.math.numeric.NumericNumber;
 import jscl.raw.RawNumberType;
 import org.jetbrains.annotations.NotNull;
@@ -17,103 +16,103 @@ import static org.junit.Assert.fail;
  */
 public abstract class VectorTest {
 
-	private static final JsclMathContext mc = JsclMathContextImpl.defaultInstance();
+    private static final JsclMathContext mc = JsclMathContextImpl.defaultInstance();
 
-	@NotNull
-	protected abstract Vector.Builder<NumericNumber, NumericVector> getBuilder(@NotNull JsclMathContext mc, int length);
+    @NotNull
+    protected abstract Vector.Builder<NumericNumber, NumericVector> getBuilder(@NotNull JsclMathContext mc, int length);
 
-	@Test
-	public void testNegate() throws Exception {
-		final int length = 10;
+    @Test
+    public void testNegate() throws Exception {
+        final int length = 10;
 
-		final Vector.Builder<NumericNumber, NumericVector> b = getBuilder(mc, length);
-		for (int i = 0; i < length; i++) {
-			b.setI(i, mc.newReal(i));
-		}
+        final Vector.Builder<NumericNumber, NumericVector> b = getBuilder(mc, length);
+        for (int i = 0; i < length; i++) {
+            b.setI(i, mc.newReal(i));
+        }
 
-		final NumericVector v = b.build();
-		for (int i = 0; i < v.getLength(); i++) {
-			Assert.assertTrue(v.getI(i).moreOrEquals(mc.newReal(0L)));
-		}
+        final NumericVector v = b.build();
+        for (int i = 0; i < v.getLength(); i++) {
+            Assert.assertTrue(v.getI(i).moreOrEquals(mc.newReal(0L)));
+        }
 
-		final NumericVector v1 = v.negate();
-		for (int i = 0; i < v1.getLength(); i++) {
-			Assert.assertTrue(v1.getI(i).lessOrEquals(mc.newReal(0L)));
-		}
-	}
+        final NumericVector v1 = v.negate();
+        for (int i = 0; i < v1.getLength(); i++) {
+            Assert.assertTrue(v1.getI(i).lessOrEquals(mc.newReal(0L)));
+        }
+    }
 
-	@Test
-	public void testMultiplication() throws Exception {
-		final int length = 10;
+    @Test
+    public void testMultiplication() throws Exception {
+        final int length = 10;
 
-		final Vector.Builder<NumericNumber, NumericVector> b = getBuilder(mc, length);
-		for (int i = 0; i < length; i++) {
-			b.setI(i, mc.newReal(i));
-		}
+        final Vector.Builder<NumericNumber, NumericVector> b = getBuilder(mc, length);
+        for (int i = 0; i < length; i++) {
+            b.setI(i, mc.newReal(i));
+        }
 
-		final NumericVector v1 = b.build();
-		final NumericVector v2 = b.build();
+        final NumericVector v1 = b.build();
+        final NumericVector v2 = b.build();
 
-		try {
-			v1.multiply(v2);
-			Assert.fail();
-		} catch (DimensionMustAgreeException e) {
-			// ok, one of the vector must be transposed
-		}
+        try {
+            v1.multiply(v2);
+            Assert.fail();
+        } catch (DimensionMustAgreeException e) {
+            // ok, one of the vector must be transposed
+        }
 
-		try {
-			v1.multiply(v2.transpose());
-			Assert.fail();
-		} catch (DimensionMustAgreeException e) {
-			// ok, first vector must be transposed
-		}
+        try {
+            v1.multiply(v2.transpose());
+            Assert.fail();
+        } catch (DimensionMustAgreeException e) {
+            // ok, first vector must be transposed
+        }
 
-		Assert.assertEquals(mc.newReal(285.0), v1.transpose().multiply(v2));
-	}
+        Assert.assertEquals(mc.newReal(285.0), v1.transpose().multiply(v2));
+    }
 
-	@Test
-	public void testSubtraction() throws Exception {
-		final int length = 10;
+    @Test
+    public void testSubtraction() throws Exception {
+        final int length = 10;
 
-		final NumericVector v = NumericVector.random(mc, length, getBuilder(mc, length));
+        final NumericVector v = NumericVector.random(mc, length, getBuilder(mc, length));
 
-		Assert.assertEquals(NumericVector.zero(mc, length), v.subtract(v));
-	}
+        Assert.assertEquals(NumericVector.zero(mc, length), v.subtract(v));
+    }
 
-	@Test
-	public void testAddition() throws Exception {
-		final int length = 10;
+    @Test
+    public void testAddition() throws Exception {
+        final int length = 10;
 
-		final JsclMathContext mc = JsclMathContextImpl.newInstance(AngleUnit.deg, NumeralBase.dec, RawNumberType.BIG_DECIMAL);
+        final JsclMathContext mc = JsclMathContextImpl.newInstance(AngleUnit.deg, NumeralBase.dec, RawNumberType.BIG_DECIMAL);
 
-		final NumericVector v = NumericVector.random(mc, length, getBuilder(mc, length));
+        final NumericVector v = NumericVector.random(mc, length, getBuilder(mc, length));
 
-		MathAssert.assertEquals(NumericVector.zero(mc, length), v.add(v.negate()));
-		for (int i = 2; i < 10; i++) {
-			NumericVector sum = NumericVector.zero(mc, length);
-			for (int j = 0; j < i; j++) {
-				sum = sum.add(v);
-			}
-			Assert.assertEquals(sum, v.multiply(mc.newReal(i)));
-		}
-	}
+        MathAssert.assertEquals(NumericVector.zero(mc, length), v.add(v.negate()));
+        for (int i = 2; i < 10; i++) {
+            NumericVector sum = NumericVector.zero(mc, length);
+            for (int j = 0; j < i; j++) {
+                sum = sum.add(v);
+            }
+            Assert.assertEquals(sum, v.multiply(mc.newReal(i)));
+        }
+    }
 
-	@Test
-	public void testBuilderLock() throws Exception {
-		final int length = 10;
+    @Test
+    public void testBuilderLock() throws Exception {
+        final int length = 10;
 
-		final Vector.Builder b = getBuilder(mc, length);
-		for (int i = 0; i < length; i++) {
-			b.setI(i, mc.newReal(i));
-		}
+        final Vector.Builder b = getBuilder(mc, length);
+        for (int i = 0; i < length; i++) {
+            b.setI(i, mc.newReal(i));
+        }
 
-		b.build();
+        b.build();
 
-		try {
-			b.setI(0, mc.newReal(1L));
-			fail();
-		} catch (IllegalStateException e) {
-			// trying to update already built vector
-		}
-	}
+        try {
+            b.setI(0, mc.newReal(1L));
+            fail();
+        } catch (IllegalStateException e) {
+            // trying to update already built vector
+        }
+    }
 }

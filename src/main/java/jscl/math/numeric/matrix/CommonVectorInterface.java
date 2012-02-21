@@ -10,8 +10,8 @@ import org.jetbrains.annotations.NotNull;
  */
 interface CommonVectorInterface<N extends INumber> {
 
-	@NotNull
-	N getI(int index);
+    @NotNull
+    N getI(int index);
 
-	int getLength();
+    int getLength();
 }

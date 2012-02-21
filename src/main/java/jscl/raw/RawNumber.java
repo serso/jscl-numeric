@@ -10,66 +10,66 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface RawNumber extends Arithmetic<RawNumber>, Comparable<RawNumber> {
 
-	@NotNull
-	RawNumber negate();
+    @NotNull
+    RawNumber negate();
 
-	int signum();
+    int signum();
 
-	@NotNull
-	RawNumber sqrt();
+    @NotNull
+    RawNumber sqrt();
 
-	@NotNull
-	RawNumber atan2(@NotNull RawNumber that);
+    @NotNull
+    RawNumber atan2(@NotNull RawNumber that);
 
-	@NotNull
-	RawNumber log();
+    @NotNull
+    RawNumber log();
 
-	@NotNull
-	RawNumber log10();
+    @NotNull
+    RawNumber log10();
 
-	@NotNull
-	RawNumber sin();
+    @NotNull
+    RawNumber sin();
 
-	@NotNull
-	RawNumber cos();
+    @NotNull
+    RawNumber cos();
 
-	@NotNull
-	RawNumber exp();
+    @NotNull
+    RawNumber exp();
 
-	boolean isZero();
+    boolean isZero();
 
-	boolean isOne();
+    boolean isOne();
 
-	boolean positive();
+    boolean positive();
 
-	boolean negative();
+    boolean negative();
 
-	@NotNull
-	RawNumber pow(@NotNull RawNumber that);
+    @NotNull
+    RawNumber pow(@NotNull RawNumber that);
 
-	@NotNull
-	RawNumber acos();
+    @NotNull
+    RawNumber acos();
 
-	boolean isNaN();
+    boolean isNaN();
 
-	@NotNull
-	RawNumber asin();
+    @NotNull
+    RawNumber asin();
 
-	@NotNull
-	RawNumber atan();
+    @NotNull
+    RawNumber atan();
 
-	@NotNull
-	RawNumber tan();
+    @NotNull
+    RawNumber tan();
 
-	@NotNull
-	DoubleRawNumber asDoubleRawNumber();
+    @NotNull
+    DoubleRawNumber asDoubleRawNumber();
 
-	double asDouble();
+    double asDouble();
 
-	@NotNull
-	BigDecimalRawNumber asBigDecimalRawNumber();
+    @NotNull
+    BigDecimalRawNumber asBigDecimalRawNumber();
 
-	boolean equals(Object o);
+    boolean equals(Object o);
 
-	boolean mathEquals(@NotNull RawNumber that);
+    boolean mathEquals(@NotNull RawNumber that);
 }

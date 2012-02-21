@@ -10,9 +10,9 @@ import org.jetbrains.annotations.NotNull;
  * Time: 5:10 PM
  */
 public class DenseVectorTest extends VectorTest {
-	@NotNull
-	@Override
-	protected Vector.Builder<NumericNumber, NumericVector> getBuilder(@NotNull JsclMathContext mc, int length) {
-		return new DenseVector.Builder(mc, length);
-	}
+    @NotNull
+    @Override
+    protected Vector.Builder<NumericNumber, NumericVector> getBuilder(@NotNull JsclMathContext mc, int length) {
+        return new DenseVector.Builder(mc, length);
+    }
 }

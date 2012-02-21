@@ -11,15 +11,15 @@ import org.jetbrains.annotations.NotNull;
  */
 public class DimensionMustAgreeException extends ArithmeticOperationException {
 
-	public DimensionMustAgreeException(@NotNull Vector l, @NotNull Vector r) {
-		super(Messages.msg_24);
-	}
+    public DimensionMustAgreeException(@NotNull Vector l, @NotNull Vector r) {
+        super(Messages.msg_24);
+    }
 
-	public DimensionMustAgreeException(@NotNull Matrix l, @NotNull Matrix r) {
-		super(Messages.msg_25);
-	}
+    public DimensionMustAgreeException(@NotNull Matrix l, @NotNull Matrix r) {
+        super(Messages.msg_25);
+    }
 
-	public DimensionMustAgreeException(@NotNull Matrix l, @NotNull Vector r) {
-		super(Messages.msg_25);
-	}
+    public DimensionMustAgreeException(@NotNull Matrix l, @NotNull Vector r) {
+        super(Messages.msg_25);
+    }
 }

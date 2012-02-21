@@ -9,18 +9,18 @@ import org.jetbrains.annotations.NotNull;
  */
 public abstract class ImmutableObjectBuilder<T> implements IBuilder<T> {
 
-	private boolean locked = false;
+    private boolean locked = false;
 
-	@NotNull
-	public final T build() {
-		this.locked = true;
-		return build0();
-	}
+    @NotNull
+    public final T build() {
+        this.locked = true;
+        return build0();
+    }
 
-	public boolean isLocked() {
-		return locked;
-	}
+    public boolean isLocked() {
+        return locked;
+    }
 
-	@NotNull
-	protected abstract T build0();
+    @NotNull
+    protected abstract T build0();
 }

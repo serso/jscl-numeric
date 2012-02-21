@@ -1,6 +1,5 @@
 package jscl.math.numeric;
 
-import jscl.math.Arithmetic;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -10,6 +9,6 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface INumber {
 
-	@NotNull
-	INumber transpose();
+    @NotNull
+    INumber transpose();
 }

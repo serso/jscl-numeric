@@ -9,6 +9,6 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface IBuilder<T> {
 
-	@NotNull
-	public T build();
+    @NotNull
+    public T build();
 }

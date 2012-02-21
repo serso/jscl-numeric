@@ -12,15 +12,15 @@ import org.solovyev.common.msg.Message;
  */
 public class ArithmeticOperationException extends AbstractJsclArithmeticException {
 
-	public ArithmeticOperationException() {
-		super(Messages.msg_23);
-	}
+    public ArithmeticOperationException() {
+        super(Messages.msg_23);
+    }
 
-	public ArithmeticOperationException(@NotNull String messageCode, Object... parameters) {
-		super(messageCode, parameters);
-	}
+    public ArithmeticOperationException(@NotNull String messageCode, Object... parameters) {
+        super(messageCode, parameters);
+    }
 
-	public ArithmeticOperationException(@NotNull Message message) {
-		super(message);
-	}
+    public ArithmeticOperationException(@NotNull Message message) {
+        super(message);
+    }
 }

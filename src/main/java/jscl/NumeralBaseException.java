@@ -9,7 +9,7 @@ import jscl.msg.Messages;
  */
 public class NumeralBaseException extends AbstractJsclArithmeticException {
 
-	public NumeralBaseException(double value) {
-		super(Messages.msg_17, value);
-	}
+    public NumeralBaseException(double value) {
+        super(Messages.msg_17, value);
+    }
 }

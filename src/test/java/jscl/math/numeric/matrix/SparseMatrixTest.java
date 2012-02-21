@@ -11,9 +11,9 @@ import org.jetbrains.annotations.NotNull;
  */
 public class SparseMatrixTest extends MatrixTest {
 
-	@NotNull
-	@Override
-	protected Matrix.Builder<NumericNumber, NumericVector, NumericMatrix> getBuilder(@NotNull JsclMathContext mc, int rows, int cols) {
-		return new SparseMatrix.Builder(mc, rows, cols);
-	}
+    @NotNull
+    @Override
+    protected Matrix.Builder<NumericNumber, NumericVector, NumericMatrix> getBuilder(@NotNull JsclMathContext mc, int rows, int cols) {
+        return new SparseMatrix.Builder(mc, rows, cols);
+    }
 }

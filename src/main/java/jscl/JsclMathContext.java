@@ -13,30 +13,30 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface JsclMathContext extends RawNumberCreator {
 
-	@NotNull
-	AngleUnit getAngleUnits();
+    @NotNull
+    AngleUnit getAngleUnits();
 
-	@NotNull
-	NumeralBase getNumeralBase();
+    @NotNull
+    NumeralBase getNumeralBase();
 
-	@NotNull
-	String format(@NotNull RawNumber value) throws NumeralBaseException;
+    @NotNull
+    String format(@NotNull RawNumber value) throws NumeralBaseException;
 
-	@NotNull
-	String format(@NotNull RawNumber value, @NotNull NumeralBase nb) throws NumeralBaseException;
+    @NotNull
+    String format(@NotNull RawNumber value, @NotNull NumeralBase nb) throws NumeralBaseException;
 
-	@NotNull
-	Real newReal(long value);
+    @NotNull
+    Real newReal(long value);
 
-	@NotNull
-	Real newReal(double value);
+    @NotNull
+    Real newReal(double value);
 
-	@NotNull
-	Complex newComplex(long real, long imaginary);
+    @NotNull
+    Complex newComplex(long real, long imaginary);
 
-	@NotNull
-	Complex newComplex(double real, double imaginary);
+    @NotNull
+    Complex newComplex(double real, double imaginary);
 
-	@NotNull
-	Real randomReal();
+    @NotNull
+    Real randomReal();
 }
